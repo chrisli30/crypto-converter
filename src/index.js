@@ -17,7 +17,7 @@ async function getInputData() {
 function convert(inputData) {
     const convertData = inputData.map(originalItem => {
         const { Uuid, Exchange, OrderType, Quantity, QuantityRemaining,
-            PricePerUnit, Closed, } = originalItem;
+            PricePerUnit, Closed, Commission} = originalItem;
 
         const item = {
             Date: Closed,
@@ -40,6 +40,9 @@ function convert(inputData) {
             item.SentQuantity = actualQty.mul(PricePerUnit).toDecimalPlaces(8);
             item.ReceivedQuantity = actualQty.toDecimalPlaces(8);
         }
+
+        item.FeeAmount = Commission;
+        item.FeeCurrency = currencyArr[0];
 
         return item;
     });
